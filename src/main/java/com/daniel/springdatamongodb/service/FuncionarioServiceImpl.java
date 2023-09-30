@@ -2,16 +2,18 @@ package com.daniel.springdatamongodb.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.daniel.springdatamongodb.exception.FuncionarioNotFoundException;
 import com.daniel.springdatamongodb.model.Funcionario;
 import com.daniel.springdatamongodb.repository.FuncionarioRepository;
 
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
+@Service
 public class FuncionarioServiceImpl implements FuncionarioService {
 
-    private final FuncionarioRepository funcionarioRepository;
+    @Autowired
+    private FuncionarioRepository funcionarioRepository;
 
     @Override
     public List<Funcionario> obterTodos() {
