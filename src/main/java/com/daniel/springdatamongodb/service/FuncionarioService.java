@@ -17,4 +17,6 @@ public interface FuncionarioService {
     public void deletar(String id);
 
     public List<Funcionario> obterFuncionarioPorIdade(Integer de, Integer ate);
+
+    public List<Funcionario> obterFuncionarioPorNome(String nome);
 }

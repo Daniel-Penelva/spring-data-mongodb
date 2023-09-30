@@ -63,4 +63,10 @@ public class FuncionarioController {
     public List<Funcionario> buscarFuncionarioPorIdade(@RequestParam("de") Integer de, @RequestParam("ate") Integer ate){
         return funcionarioService.obterFuncionarioPorIdade(de, ate);
     }
+
+    // http://localhost:8080/api/funcionario/buscarnome
+    @GetMapping("/buscarnome")
+    public List<Funcionario> buscarFuncionarioPorNome(@RequestParam("nome") String nome){
+        return funcionarioService.obterFuncionarioPorNome(nome);
+    }
 }
