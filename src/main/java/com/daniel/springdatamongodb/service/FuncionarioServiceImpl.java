@@ -27,6 +27,12 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
     @Override
     public Funcionario criar(Funcionario funcionario) {
+
+        Funcionario chefe = funcionarioRepository.findById(funcionario.getChefe().getId())
+            .orElseThrow(() -> new FuncionarioNotFoundException(funcionario.getChefe().getId()));
+
+        funcionario.setChefe(chefe);
+
         return funcionarioRepository.save(funcionario);
     }
 
