@@ -65,4 +65,11 @@ public class FuncionarioServiceImpl implements FuncionarioService {
             throw new FuncionarioNotFoundException(id);
         });
     }
+
+    @Override
+    public List<Funcionario> obterFuncionarioPorIdade(Integer de, Integer ate) {
+
+        return funcionarioRepository.obterFuncionarioPorIdade(de, ate);
+    }
+
 }

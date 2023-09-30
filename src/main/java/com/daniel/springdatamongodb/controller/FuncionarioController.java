@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.daniel.springdatamongodb.model.Funcionario;
@@ -54,5 +55,12 @@ public class FuncionarioController {
     @DeleteMapping("/{id}")
     public void deletarFuncionarioPorId(@PathVariable String id){
         funcionarioService.deletar(id);
+    }
+
+
+    // http://localhost:8080/api/funcionario/range
+    @GetMapping("/range")
+    public List<Funcionario> buscarFuncionarioPorIdade(@RequestParam("de") Integer de, @RequestParam("ate") Integer ate){
+        return funcionarioService.obterFuncionarioPorIdade(de, ate);
     }
 }
