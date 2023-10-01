@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
+import com.daniel.springdatamongodb.model.Departamento;
 import com.daniel.springdatamongodb.model.Funcionario;
 
 public interface FuncionarioRepository extends MongoRepository<Funcionario, String>{
@@ -14,6 +15,8 @@ public interface FuncionarioRepository extends MongoRepository<Funcionario, Stri
 
     @Query("{'nome': {$regex : ?0, $options: 'i'}}")
     public List<Funcionario> findByNome(String nome);
+
+    List<Funcionario> findByDepartamento(Departamento departamento);
 }
 
 /* Explicando a query Buscar por idade: 

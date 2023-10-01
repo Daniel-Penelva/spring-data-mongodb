@@ -25,6 +25,10 @@ public class Funcionario {
 
     @DBRef
     private Funcionario chefe;
+
+    // Adicione uma referência ao departamento, o que permite que cada funcionário esteja associado a um departamento. 
+    @DBRef 
+    private Departamento departamento;
 }
 
 /** Anotação `@DBRef`

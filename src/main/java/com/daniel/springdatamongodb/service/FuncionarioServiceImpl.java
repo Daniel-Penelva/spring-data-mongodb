@@ -5,8 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.daniel.springdatamongodb.exception.DepartamentoNotFoundException;
 import com.daniel.springdatamongodb.exception.FuncionarioNotFoundException;
+import com.daniel.springdatamongodb.model.Departamento;
 import com.daniel.springdatamongodb.model.Funcionario;
+import com.daniel.springdatamongodb.repository.DepartamentoRepository;
 import com.daniel.springdatamongodb.repository.FuncionarioRepository;
 
 @Service
@@ -14,6 +17,9 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
     @Autowired
     private FuncionarioRepository funcionarioRepository;
+
+    @Autowired
+    private DepartamentoRepository departamentoRepository;
 
     @Override
     public List<Funcionario> obterTodos() {
@@ -77,6 +83,28 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     public List<Funcionario> obterFuncionarioPorNome(String nome){
 
         return funcionarioRepository.findByNome(nome);
+    }
+
+    // Para associar um funcionário a um departamento
+    public Funcionario associarFuncionarioADepartamento(String funcionarioId, String departamentoId){
+        
+        Funcionario funcionario = funcionarioRepository.findById(funcionarioId).orElseThrow(
+            () -> new FuncionarioNotFoundException(funcionarioId));
+
+        Departamento departamento = departamentoRepository.findById(departamentoId).orElseThrow(
+            () -> new DepartamentoNotFoundException(departamentoId));
+
+        
+        //Atribuindo o funcionario no departamento
+        funcionario.setDepartamento(departamento);
+        
+        funcionarioRepository.save(funcionario);
+        return funcionario;
+    }
+
+    // Listar todos os funcionários associados a um departamento
+    public List<Funcionario> listarFuncionariosPorDepartamento(Departamento departamento){
+        return funcionarioRepository.findByDepartamento(departamento);
     }
 
 }
