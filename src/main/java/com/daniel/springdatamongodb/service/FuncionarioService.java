@@ -26,4 +26,7 @@ public interface FuncionarioService {
 
     // Listar todos os funcionários associados a um departamento
     public List<Funcionario> listarFuncionariosPorDepartamento(Departamento departamento);
+
+    // Desassociar um funcionário de um departamento
+    public Funcionario desassociarFuncionarioDeDepartamento(String funcionarioId);
 }

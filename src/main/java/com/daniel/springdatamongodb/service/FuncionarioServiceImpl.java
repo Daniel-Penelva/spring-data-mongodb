@@ -107,4 +107,23 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         return funcionarioRepository.findByDepartamento(departamento);
     }
 
+    // Desassociar um funcionário de um departamento
+    public Funcionario desassociarFuncionarioDeDepartamento(String funcionarioId) {
+        Funcionario funcionario = funcionarioRepository.findById(funcionarioId).orElseThrow(
+            () -> new FuncionarioNotFoundException(funcionarioId));
+    
+            if (funcionario.getDepartamento() != null) {
+                Departamento departamento = funcionario.getDepartamento();
+                if (departamento.getFuncionarios() != null) {
+                    departamento.getFuncionarios().remove(funcionario);
+                    departamentoRepository.save(departamento);
+                }
+            }
+        
+            funcionario.setDepartamento(null);
+        
+            return funcionarioRepository.save(funcionario);
+    }
+    
+    
 }

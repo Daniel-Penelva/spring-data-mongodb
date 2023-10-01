@@ -104,4 +104,29 @@ public class FuncionarioController {
             return ResponseEntity.notFound().build();
         }
     }
+
+
+    // http://localhost:8080/api/funcionario/desassociar/{funcionarioId}
+    // Desassociar um funcionário de um departamento
+    @PostMapping("/desassociar/{funcionarioId}")
+    public  ResponseEntity<Funcionario> desassociarFuncionarioDeDepartamento(@PathVariable String funcionarioId){
+
+        Funcionario funcionario = funcionarioService.desassociarFuncionarioDeDepartamento(funcionarioId);
+
+    if (funcionario != null) {
+        return ResponseEntity.ok(funcionario);
+    } else {
+        return ResponseEntity.notFound().build();
+    }
+
+        /**
+         * 1. ResponseEntity: É um objeto que representa uma resposta HTTP no Spring Framework. Ele fornece métodos para definir o corpo da 
+         * resposta, os cabeçalhos e o status HTTP.
+         * 
+         * 2. notFound(): É um método estático da classe ResponseEntity que cria uma instância de ResponseEntity com o status HTTP 404 (Not Found).
+         * 
+         * 3. build(): É um método que finaliza a construção da resposta ResponseEntity. Ele não tem argumentos, pois a resposta já foi 
+         * configurada com o status 404 usando notFound(). O build() simplesmente finaliza a construção da resposta.
+        */
+    }
 }
