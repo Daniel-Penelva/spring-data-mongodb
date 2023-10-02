@@ -124,6 +124,34 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         
             return funcionarioRepository.save(funcionario);
     }
-    
-    
+
+
+    // Deletar o funcionario associado ao departamento
+    public void deleteAssociacaoFuncionarioDepartamento(String funcionarioId){
+        
+        // Passo 1: Buscar o Funcionário por ID
+        Funcionario funcionario = funcionarioRepository.findById(funcionarioId).orElseThrow(
+            ()-> new FuncionarioNotFoundException(funcionarioId));
+
+            // Passo 2: Verificar se o Funcionário está associado a um Departamento
+            if (funcionario.getDepartamento() != null) {
+
+                // Passo 3: Obter o Departamento associado ao Funcionário
+                Departamento departamento = funcionario.getDepartamento();
+        
+                // Passo 4: Verificar se o Departamento e sua lista de Funcionários não são nulos
+                if (departamento != null && departamento.getFuncionarios() != null) {
+
+                    // Passo 5: Remover o Funcionário da lista de Funcionários do Departamento
+                    departamento.getFuncionarios().removeIf(f -> f.getId().equals(funcionarioId));
+
+                    // Passo 6: Salvar o Departamento atualizado no repositório
+                    departamentoRepository.save(departamento);
+                }
+        
+                // Passo 7: Desassociar o Funcionário do Departamento
+                funcionario.setDepartamento(null);
+                funcionarioRepository.save(funcionario);
+            }
+    } 
 }

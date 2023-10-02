@@ -129,4 +129,11 @@ public class FuncionarioController {
          * configurada com o status 404 usando notFound(). O build() simplesmente finaliza a construção da resposta.
         */
     }
+
+    // Deletar o funcionario associado ao departamento
+    @DeleteMapping("/deletar-associado/{funcionarioId}")
+    public ResponseEntity<?> deletarFuncionarioAssociadoAoDepartamento(@PathVariable String funcionarioId){
+        funcionarioService.deleteAssociacaoFuncionarioDepartamento(funcionarioId);
+        return ResponseEntity.noContent().build();
+    }
 }

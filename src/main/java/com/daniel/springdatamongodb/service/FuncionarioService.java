@@ -29,4 +29,7 @@ public interface FuncionarioService {
 
     // Desassociar um funcionário de um departamento
     public Funcionario desassociarFuncionarioDeDepartamento(String funcionarioId);
+
+    // Deletar os funcionario associado ao departamento
+    public void deleteAssociacaoFuncionarioDepartamento(String funcionarioId);
 }
