@@ -130,10 +130,19 @@ public class FuncionarioController {
         */
     }
 
+
+    // http://localhost:8080/api/funcionario/deletar-associado/{funcionarioId}
     // Deletar o funcionario associado ao departamento
     @DeleteMapping("/deletar-associado/{funcionarioId}")
     public ResponseEntity<?> deletarFuncionarioAssociadoAoDepartamento(@PathVariable String funcionarioId){
         funcionarioService.deleteAssociacaoFuncionarioDepartamento(funcionarioId);
         return ResponseEntity.noContent().build();
+    }
+
+
+    // http://localhost:8080/api/funcionario
+    @PostMapping("/criar-com-endereco")
+    public Funcionario criarFuncionarioAssociadoComEndereco(@RequestBody Funcionario funcionario) {
+        return funcionarioService.criarFuncionarioComEndereco(funcionario);
     }
 }

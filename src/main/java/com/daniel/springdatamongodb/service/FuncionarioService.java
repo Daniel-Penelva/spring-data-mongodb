@@ -32,4 +32,7 @@ public interface FuncionarioService {
 
     // Deletar os funcionario associado ao departamento
     public void deleteAssociacaoFuncionarioDepartamento(String funcionarioId);
+
+    //Criar um funcionario asssociado a um endereço
+    public Funcionario criarFuncionarioComEndereco(Funcionario funcionario);
 }

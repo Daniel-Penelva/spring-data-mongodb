@@ -30,6 +30,18 @@ public class Funcionario {
     @DBRef 
     private Departamento departamento;
 
+    // Adicionado uma referencia ao departamento (mapeamento de um para um), o que permite que cada funcionário esteja associado a um endereço.
+    /** Bom saber:
+     * Vale ressaltar,  @DBRef em Funcionario permite que cada documento de Funcionario faça referência a um documento de Endereco. No entanto, 
+     * os documentos de Endereco não precisam ter uma referência inversa a Funcionario (ou seja, você não precisa adicionar um campo Funcionario 
+     * na classe Endereco) a menos que haja um requisito específico para acessar os Funcionarios associados a um Endereco a partir da classe 
+     * Endereco. O fato é que a anotação @DBRef em Funcionario estabelece uma associação unidirecional entre Funcionario e Endereco. Isso 
+     * significa que a classe Funcionario possui uma referência a um documento de Endereco, permitindo que você acesse o Endereco a partir do 
+     * Funcionario. No entanto, a classe Endereco não possui uma referência direta ao Funcionario, o que torna a associação unidirecional.
+    */
+    @DBRef
+    Endereco endereco;
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

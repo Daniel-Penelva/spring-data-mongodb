@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import com.daniel.springdatamongodb.exception.DepartamentoNotFoundException;
 import com.daniel.springdatamongodb.exception.FuncionarioNotFoundException;
 import com.daniel.springdatamongodb.model.Departamento;
+import com.daniel.springdatamongodb.model.Endereco;
 import com.daniel.springdatamongodb.model.Funcionario;
 import com.daniel.springdatamongodb.repository.DepartamentoRepository;
+import com.daniel.springdatamongodb.repository.EnderecoRepository;
 import com.daniel.springdatamongodb.repository.FuncionarioRepository;
 
 @Service
@@ -20,6 +22,9 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
     @Autowired
     private DepartamentoRepository departamentoRepository;
+
+    @Autowired
+    private EnderecoRepository enderecoRepository;
 
     @Override
     public List<Funcionario> obterTodos() {
@@ -154,4 +159,17 @@ public class FuncionarioServiceImpl implements FuncionarioService {
                 funcionarioRepository.save(funcionario);
             }
     } 
+
+
+    //Criar um funcionario asssociado a um endereço
+    public Funcionario criarFuncionarioComEndereco(Funcionario funcionario) {
+        // Verifique se o Endereco já existe no banco de dados ou crie um novo Endereco
+        Endereco endereco = funcionario.getEndereco();
+        if (endereco != null && endereco.getId() == null) {
+            enderecoRepository.save(endereco);
+        }
+        
+        // Salve o Funcionario
+        return funcionarioRepository.save(funcionario);
+    }
 }
