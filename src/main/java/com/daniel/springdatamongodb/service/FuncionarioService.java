@@ -1,6 +1,7 @@
 package com.daniel.springdatamongodb.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.daniel.springdatamongodb.model.Departamento;
 import com.daniel.springdatamongodb.model.Funcionario;
@@ -35,4 +36,7 @@ public interface FuncionarioService {
 
     //Criar um funcionario asssociado a um endereço
     public Funcionario criarFuncionarioComEndereco(Funcionario funcionario);
+
+    // Método para atualizar um funcionário e seu endereço
+    Optional<Funcionario> atualizarFuncionarioEEndereco(String funcionarioId, Funcionario funcionarioAtualizado);
 }

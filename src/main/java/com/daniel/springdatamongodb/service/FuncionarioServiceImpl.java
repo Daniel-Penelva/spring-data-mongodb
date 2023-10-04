@@ -1,6 +1,7 @@
 package com.daniel.springdatamongodb.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,7 +63,6 @@ public class FuncionarioServiceImpl implements FuncionarioService {
                 })
                 .orElseThrow(() -> new FuncionarioNotFoundException(id));
     }
-
 
     /**
      * ifPresentOrElse verifica se o funcionário com o ID especificado existe. Se existir, ele executa a ação fornecida no primeiro lambda 
@@ -168,8 +168,70 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         if (endereco != null && endereco.getId() == null) {
             enderecoRepository.save(endereco);
         }
-        
         // Salve o Funcionario
         return funcionarioRepository.save(funcionario);
     }
+
+    // Método para atualizar um funcionário e seu endereço
+    public Optional<Funcionario> atualizarFuncionarioEEndereco(String funcionarioId, Funcionario funcionarioAtualizado) {
+    try{   
+        return funcionarioRepository.findById(funcionarioId)
+            .map(funcionarioExistente -> {
+                funcionarioExistente.setNome(funcionarioAtualizado.getNome());
+                funcionarioExistente.setIdade(funcionarioAtualizado.getIdade());
+                funcionarioExistente.setSalario(funcionarioAtualizado.getSalario());
+                funcionarioExistente.setChefe(funcionarioAtualizado.getChefe());
+
+                Departamento departamentoAtualizado = funcionarioAtualizado.getDepartamento();
+
+                if (departamentoAtualizado != null) {
+                    Departamento departamentoExistente = funcionarioExistente.getDepartamento();
+                    if (departamentoExistente != null) {
+
+                         // Atualize outros campos do departamento conforme necessário
+                        departamentoExistente.setNome(departamentoAtualizado.getNome());
+                        departamentoExistente.setFuncionarios(departamentoAtualizado.getFuncionarios());
+
+                        // Salve as alterações no departamento
+                       departamentoRepository.save(departamentoExistente);
+                       
+                    } else {
+                        funcionarioExistente.setDepartamento(departamentoAtualizado);;
+
+                        // Crie um novo departamento e salva
+                        departamentoRepository.save(departamentoAtualizado); 
+                    }
+                }
+
+
+                Endereco enderecoAtualizado = funcionarioAtualizado.getEndereco();
+
+                if (enderecoAtualizado != null) {
+                    Endereco enderecoExistente = funcionarioExistente.getEndereco();
+                    if (enderecoExistente != null) {
+
+                         // Atualize outros campos do endereço conforme necessário
+                        enderecoExistente.setRua(enderecoAtualizado.getRua());
+                        enderecoExistente.setCidade(enderecoAtualizado.getCidade());
+
+                        // Salve as alterações no endereço
+                        enderecoRepository.save(enderecoExistente);
+                       
+                    } else {
+                        funcionarioExistente.setEndereco(enderecoAtualizado);
+
+                        // Crie um novo endereço e salva
+                        enderecoRepository.save(enderecoAtualizado); 
+                    }
+                }
+
+                return funcionarioRepository.save(funcionarioExistente);
+
+            });
+        }catch(Exception e){
+            e.printStackTrace(); // Exemplo de saída para o console
+        throw e;
+        }
+    }
+    
 }

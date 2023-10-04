@@ -1,8 +1,10 @@
 package com.daniel.springdatamongodb.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,8 +36,14 @@ public class FuncionarioController {
 
     // http://localhost:8080/api/funcionario
     @GetMapping
-    public List<Funcionario> listarFuncionarios(){
-        return funcionarioService.obterTodos();
+    public ResponseEntity<List<Funcionario>> listarFuncionarios(){
+
+        List<Funcionario> funcionarios = funcionarioService.obterTodos();
+
+        if(!funcionarios.isEmpty()){
+            return new ResponseEntity<>(funcionarios, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 
@@ -140,9 +148,25 @@ public class FuncionarioController {
     }
 
 
-    // http://localhost:8080/api/funcionario
+    // http://localhost:8080/api/funcionario/criar-com-endereco
     @PostMapping("/criar-com-endereco")
     public Funcionario criarFuncionarioAssociadoComEndereco(@RequestBody Funcionario funcionario) {
         return funcionarioService.criarFuncionarioComEndereco(funcionario);
+    }
+
+
+    // http://localhost:8080/api/funcionario/atualizar-com-endereco/{funcionarioId}
+    @PutMapping("/atualizar-com-endereco/{funcionarioId}")
+    public ResponseEntity<Funcionario> atualizarFuncionarioEEndereco(
+            @PathVariable String funcionarioId,
+            @RequestBody Funcionario funcionarioAtualizado) {
+
+        Optional<Funcionario> funcionarioAtualizadoOptional = funcionarioService.atualizarFuncionarioEEndereco(funcionarioId, funcionarioAtualizado);
+
+        if (funcionarioAtualizadoOptional.isPresent()) {
+            return new ResponseEntity<>(funcionarioAtualizadoOptional.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
