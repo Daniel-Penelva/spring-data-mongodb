@@ -45,5 +45,13 @@ public class ProjetoController {
         Projeto projeto = projetoService.adicionarFuncionarioAoProjeto(projetoId, funcionarioId);
         return new ResponseEntity<>(projeto, HttpStatus.OK);
     }
-    
+
+
+    // http://localhost:8080/api/projetos/{projetoId}/adicionar-departamento/{departamentoId}
+    @PostMapping("/{projetoId}/adicionar-departamento/{departamentoId}")
+    public ResponseEntity<Projeto> criarDepartamentoAoProjeto(@PathVariable String projetoId, @PathVariable String departamentoId){
+
+        Projeto projeto = projetoService.adicionarDepartamentoProjeto(projetoId, departamentoId);
+        return new ResponseEntity<>(projeto, HttpStatus.OK);
+    }
 }
