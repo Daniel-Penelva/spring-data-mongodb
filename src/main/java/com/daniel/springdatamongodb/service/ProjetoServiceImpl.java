@@ -125,4 +125,30 @@ public class ProjetoServiceImpl implements ProjetoService{
 
             return projetoRepository.save(projetoExistente);  
         }
+
+
+        public void removerProjeto(String projetoId){
+
+            Projeto projeto = projetoRepository.findById(projetoId).orElseThrow(() -> new ProjetoNotFoundException(projetoId));
+
+            // Desvincula os funcionarios do projeto
+            for(Funcionario funcionario: projeto.getFuncionarios()){
+                projeto.getFuncionarios().remove(projeto);
+                funcionarioRepository.save(funcionario);
+            }
+
+            // Limpar a lista de funcionários associados ao projeto. Quando chamado, o método clear() remove todos os elementos da coleção, tornando-a vazia. Isso significa que todos os funcionários previamente associados ao projeto serão desassociados.
+            projeto.getFuncionarios().clear();
+
+            // Desvincular os departamentos do projeto
+            for(Departamento departamento: projeto.getDepartamentos()){
+                projeto.getDepartamentos().remove(projeto);
+                departamentoRepository.save(departamento);
+            }
+
+            // Limpar a lista de departamentos associados ao projeto. Quando chamado, o método clear() remove todos os elementos da coleção, tornando-a vazia. Isso significa que todos os departamentos previamente associados ao projeto serão desassociados.
+            projeto.getDepartamentos().clear();
+
+            projetoRepository.delete(projeto);
+        }
 }
