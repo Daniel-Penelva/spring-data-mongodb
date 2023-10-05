@@ -97,5 +97,17 @@ public class ProjetoServiceImpl implements ProjetoService{
         * retorna true. Caso contrário, retorna false.
        */
     }
+
+
+    public Projeto removerDepartamentoDoProjeto(String projetoId, String departamentoId){
+
+        Projeto projeto = projetoRepository.findById(projetoId).orElseThrow(() -> new ProjetoNotFoundException(projetoId));
+
+        if(projeto.getDepartamentos().removeIf(departamento -> departamento.getId().equals(departamentoId))){
+            return projetoRepository.save(projeto);
+        }else{
+            throw new  DepartamentoNotFoundException(departamentoId);
+        }
+    }
     
 }

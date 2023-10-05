@@ -15,5 +15,7 @@ public interface ProjetoService {
     public Projeto adicionarDepartamentoProjeto(String projetoId, String departamentoId);
 
     public Projeto removerFuncionarioDoProjeto(String projetoId, String funcionarioId);
+
+    public Projeto removerDepartamentoDoProjeto(String projetoId, String departamentoId);
     
 }

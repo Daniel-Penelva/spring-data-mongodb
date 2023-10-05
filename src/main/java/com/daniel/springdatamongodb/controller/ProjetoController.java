@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.daniel.springdatamongodb.exception.DepartamentoNotFoundException;
 import com.daniel.springdatamongodb.exception.FuncionarioNotFoundException;
 import com.daniel.springdatamongodb.exception.ProjetoNotFoundException;
 import com.daniel.springdatamongodb.model.Projeto;
@@ -76,4 +77,24 @@ public class ProjetoController {
         }
         
     }
+
+    // http://localhost:8080/api/projetos/{projetoId}/deletar-departamento/{departamentoId}
+    @DeleteMapping("/{projetoId}/deletar-departamento/{departamentoId}")
+    public ResponseEntity<Projeto> deletarDepartamentoAoProjeto(@PathVariable String projetoId, @PathVariable String departamentoId){
+
+        try {
+
+            Projeto projeto = projetoService.removerDepartamentoDoProjeto(projetoId, departamentoId);
+            return ResponseEntity.ok(projeto);
+
+        } catch (DepartamentoNotFoundException e) {
+           return ResponseEntity.notFound().build();
+
+        }catch(ProjetoNotFoundException e){
+            return ResponseEntity.notFound().build();
+        }
+        
+    }
+
+
 }
