@@ -73,5 +73,29 @@ public class ProjetoServiceImpl implements ProjetoService{
         // Salva o projeto atualizado no banco de dados usando projetoRepository.save(projeto) e retorna o projeto atualizado.
         return projetoRepository.save(projeto);
     }
+
+
+    public Projeto removerFuncionarioDoProjeto(String projetoId, String funcionarioId){
+
+        Projeto projeto = projetoRepository.findById(projetoId).orElseThrow(() -> new ProjetoNotFoundException(projetoId));
+
+        // Verifica se o projeto contém o funcionário a ser removido
+        if(projeto.getFuncionarios().removeIf(funcionario -> funcionario.getId().equals(funcionarioId))){
+            
+            // Se o funcionário foi removido, salva o projeto atualizado no banco de dados
+            return projetoRepository.save(projeto);
+
+        }else{
+
+            // Se o funcionário não foi encontrado no projeto, lança uma exceção
+            throw new FuncionarioNotFoundException(funcionarioId);
+        }
+
+       /**
+        * OBS. "removeIf(funcionario -> funcionario.getId().equals(funcionarioId))" - verifica se o projeto contém o funcionário que deseja 
+        * remover. Para isso, utiliza o método removeIf na lista de funcionários do projeto. Se o funcionário for encontrado e removido, o método 
+        * retorna true. Caso contrário, retorna false.
+       */
+    }
     
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.daniel.springdatamongodb.exception.FuncionarioNotFoundException;
+import com.daniel.springdatamongodb.exception.ProjetoNotFoundException;
 import com.daniel.springdatamongodb.model.Projeto;
 import com.daniel.springdatamongodb.service.ProjetoService;
 
@@ -53,5 +56,24 @@ public class ProjetoController {
 
         Projeto projeto = projetoService.adicionarDepartamentoProjeto(projetoId, departamentoId);
         return new ResponseEntity<>(projeto, HttpStatus.OK);
+    }
+
+
+    // http://localhost:8080/api/projetos/{projetoId}/deletar-funcionario/{funcionarioId}
+    @DeleteMapping("/{projetoId}/deletar-funcionario/{funcionarioId}")
+    public ResponseEntity<Projeto> deletarFuncionarioAoProjeto(@PathVariable String projetoId, @PathVariable String funcionarioId){
+
+        try {
+
+            Projeto projeto = projetoService.removerFuncionarioDoProjeto(projetoId, funcionarioId);
+            return ResponseEntity.ok(projeto);
+
+        } catch (FuncionarioNotFoundException e) {
+           return ResponseEntity.notFound().build();
+
+        }catch(ProjetoNotFoundException e){
+            return ResponseEntity.notFound().build();
+        }
+        
     }
 }
