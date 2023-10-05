@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -90,6 +91,19 @@ public class ProjetoController {
         } catch (DepartamentoNotFoundException e) {
            return ResponseEntity.notFound().build();
 
+        }catch(ProjetoNotFoundException e){
+            return ResponseEntity.notFound().build();
+        }
+        
+    }
+
+
+    @PutMapping("/alterar-projeto/{projetoId}")
+    public ResponseEntity<Projeto> alterarProjeto(@PathVariable String projetoId, @RequestBody Projeto projetoAtualizado){
+
+        try{
+            Projeto projetoAlterado = projetoService.atualizarProjeto(projetoId, projetoAtualizado);
+            return ResponseEntity.ok(projetoAlterado);
         }catch(ProjetoNotFoundException e){
             return ResponseEntity.notFound().build();
         }

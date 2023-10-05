@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.daniel.springdatamongodb.exception.DepartamentoNotFoundException;
 import com.daniel.springdatamongodb.exception.FuncionarioNotFoundException;
@@ -108,6 +110,19 @@ public class ProjetoServiceImpl implements ProjetoService{
         }else{
             throw new  DepartamentoNotFoundException(departamentoId);
         }
+
     }
-    
+
+
+        public Projeto atualizarProjeto(String projetoId, Projeto projetoAtualizado){
+
+            Projeto projetoExistente = projetoRepository.findById(projetoId).orElseThrow(
+                () -> new ProjetoNotFoundException(projetoId));
+
+            projetoExistente.setNome(projetoAtualizado.getNome());
+            projetoExistente.setFuncionarios(projetoAtualizado.getFuncionarios());
+            projetoExistente.setDepartamentos(projetoAtualizado.getDepartamentos());
+
+            return projetoRepository.save(projetoExistente);  
+        }
 }
